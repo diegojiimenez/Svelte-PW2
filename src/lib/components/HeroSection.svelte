@@ -12,7 +12,6 @@
   let subtitleRef: HTMLParagraphElement;
   let scrollTextRef: HTMLDivElement;
 
-  // Reemplazamos useEffect por la nueva runa $effect de Svelte 5
   $effect(() => {
     // Asegurarnos de que el contenedor existe antes de animar
     if (!containerRef) return;
@@ -28,7 +27,7 @@
       // 2. Fade del overlay oscuro
       gsap.fromTo(
         overlayRef,
-        { opacity: 0.9 },
+        { opacity: 0.95 },
         { opacity: 0.6, duration: 2, ease: 'power2.out' }
       );
 
@@ -68,7 +67,7 @@
 
       // El overlay se oscurece al hacer scroll
       gsap.to(overlayRef, {
-        opacity: 0.85,
+        opacity: 0.95,
         scrollTrigger: {
           trigger: containerRef,
           start: 'top top',

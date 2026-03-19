@@ -1,67 +1,53 @@
+/* Sintaxis correcta para Tailwind v3 */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 72.2% 50.6%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 222.2 84% 4.9%;
-    --radius: 0.5rem;
-	--sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Ultra Dark Fashion Palette */
+    --background: oklch(0.04 0.005 250); /* Casi negro puro (4% de luz) */
+    --foreground: oklch(0.75 0.01 85); /* Oscurecido de 0.92 a 0.75 */
+    --card: oklch(0.07 0.005 250); /* Un pelín más claro que el fondo para destacar */
+    --card-foreground: oklch(0.92 0.01 85);
+    --popover: oklch(0.06 0.005 250);
+    --popover-foreground: oklch(0.92 0.01 85);
+    --primary: oklch(0.75 0.01 85); /* Oscurecido a 0.75 */
+    --primary-foreground: oklch(0.04 0.005 250);
+    --secondary: oklch(0.12 0.005 250); /* Gris muy oscuro */
+    --secondary-foreground: oklch(0.85 0.01 85);
+    --muted: oklch(0.15 0.005 250); 
+    --muted-foreground: oklch(0.65 0.01 85); 
+    --accent: oklch(0.80 0.02 75); 
+    --accent-foreground: oklch(0.04 0.005 250);
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --border: oklch(0.12 0.005 250); /* Bordes más sutiles e integrados */
+    --input: oklch(0.10 0.005 250);
+    --ring: oklch(0.65 0.01 85);
+    --radius: 0.25rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 212.7 26.8% 83.9%;
-	--sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --background: oklch(0.02 0.005 250);
+    --foreground: oklch(0.75 0.01 85); /* Oscurecido a 0.75 */
+    --card: oklch(0.07 0.005 250);
+    --card-foreground: oklch(0.92 0.01 85);
+    --popover: oklch(0.06 0.005 250);
+    --popover-foreground: oklch(0.92 0.01 85);
+    --primary: oklch(0.75 0.01 85); /* Oscurecido a 0.75 */
+    --primary-foreground: oklch(0.04 0.005 250);
+    --secondary: oklch(0.12 0.005 250);
+    --secondary-foreground: oklch(0.85 0.01 85);
+    --muted: oklch(0.15 0.005 250);
+    --muted-foreground: oklch(0.65 0.01 85);
+    --accent: oklch(0.80 0.02 75);
+    --accent-foreground: oklch(0.04 0.005 250);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.637 0.237 25.331);
+    --border: oklch(0.12 0.005 250);
+    --input: oklch(0.10 0.005 250);
+    --ring: oklch(0.65 0.01 85);
   }
 }
 
@@ -71,5 +57,87 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Geist', sans-serif;
   }
+}
+
+/* Custom animations for brutalist fashion site */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-mask {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+}
+
+.animate-reveal-up {
+  animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-reveal-mask {
+  animation: reveal-mask 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Hide scrollbar but allow scrolling */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Text clip for gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--foreground)) 0%, hsl(var(--muted-foreground)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Scroll line animation for hero */
+@keyframes scroll-line {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scroll-line {
+  animation: scroll-line 1.5s ease-in-out infinite;
 }
