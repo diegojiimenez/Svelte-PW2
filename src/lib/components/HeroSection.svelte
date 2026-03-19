@@ -1,6 +1,8 @@
 <script lang="ts">
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  import ScrollRevealSection from '$lib/components/ScrollRevealSection.svelte';
+  import Navigation from '$lib/components/Navigation.svelte';
 
   // Registramos el plugin de GSAP
   gsap.registerPlugin(ScrollTrigger);
@@ -10,7 +12,7 @@
   let overlayRef: HTMLDivElement;
   let titleRef: HTMLHeadingElement;
   let subtitleRef: HTMLParagraphElement;
-  let scrollTextRef: HTMLDivElement;
+  let scrollTextRef: HTMLDivElement;    
 
   $effect(() => {
     // Asegurarnos de que el contenedor existe antes de animar
