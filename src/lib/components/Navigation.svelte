@@ -15,13 +15,11 @@
   // Función para manejar el click y evitar la recarga de página (comportamiento SPA)
   function handleNavigate(e: MouseEvent, href: string) {
     e.preventDefault();
-    // Actualizamos la URL en el navegador sin recargar
     window.history.pushState({}, '', href);
-    // Actualizamos nuestro estado de Svelte para que la UI reaccione
     currentPath = href;
+
+    window.dispatchEvent(new PopStateEvent('popstate'));
     
-    // Aquí podrías despachar un evento o llamar a una función global 
-    // para decirle al resto de la app que cambie de pantalla
   }
 </script>
 
