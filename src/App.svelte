@@ -6,7 +6,7 @@
   import Footer from '$lib/components/Footer.svelte';
 </script>
 
-<main class="min-h-screen bg-background">
+<main class="min-h-screen bg-background text-foreground">
   <Navigation />
   <HeroSection />
   <ScrollRevealSection />

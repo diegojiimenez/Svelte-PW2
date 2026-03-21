@@ -79,22 +79,24 @@
 
 <section
   bind:this={containerRef}
-  class="relative h-screen w-full bg-background overflow-hidden"
+  class="relative h-screen w-full bg-[#0a0a0a] overflow-hidden" 
 >
-  <div class="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/20"></div>
+  <!-- Cambiado bg-black a bg-[#0a0a0a] (gris muy oscuro) para que resalte el número -->
+  <!-- Eliminamos el gradiente que tenía 'secondary/30' para evitar colores extraños -->
+  <div class="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#0a0a0a] to-neutral-800/20"></div>
 
   <div class="absolute left-8 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-4">
-    <span class="text-[10px] tracking-[0.3em] text-muted-foreground uppercase -rotate-90 origin-center whitespace-nowrap mb-8">
+    <span class="text-[10px] tracking-[0.3em] text-white/55 uppercase -rotate-90 origin-center whitespace-nowrap mb-8">
       Scroll to explore
     </span>
-    <div class="relative w-px h-32 bg-foreground/10 overflow-hidden">
+    <div class="relative w-px h-32 bg-white/10 overflow-hidden">
       <div
         bind:this={progressRef}
-        class="absolute top-0 left-0 w-full bg-foreground origin-top"
+        class="absolute top-0 left-0 w-full bg-white origin-top"
         style="transform: scaleY(0);"
       ></div>
     </div>
-    <span class="text-xs text-muted-foreground mt-4">
+    <span class="text-xs text-white/40 mt-4">
       {String(activeIndex + 1).padStart(2, '0')} / {String(showcaseItems.length).padStart(2, '0')}
     </span>
   </div>
@@ -109,23 +111,24 @@
             class="absolute inset-0 flex flex-col justify-center"
             style="opacity: {index === 0 ? 1 : 0};"
           >
-            <span class="text-[120px] md:text-[200px] font-extralight text-foreground/5 absolute -left-4 md:-left-8 top-0 leading-none select-none">
+            <!-- Aumentada la opacidad de 0.03 a 0.08 -->
+            <span class="text-[120px] md:text-[200px] font-extralight text-white/[0.08] absolute -left-4 md:-left-8 top-0 leading-none select-none z-0">
               {String(index + 1).padStart(2, '0')}
             </span>
             <div class="relative z-10">
-              <span class="block text-[10px] tracking-[0.5em] text-accent uppercase mb-4">
+              <span class="block text-[10px] tracking-[0.5em] text-white/50 uppercase mb-4">
                 {item.subtitle}
               </span>
-              <h2 class="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-[-0.02em] text-foreground leading-none mb-6">
+              <h2 class="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-[-0.02em] text-white leading-none mb-6">
                 {item.name}
               </h2>
               <div class="flex items-center gap-8">
-                <span class="text-2xl md:text-3xl font-extralight text-foreground/80">
+                <span class="text-2xl md:text-3xl font-extralight text-white/75">
                   {item.price}
                 </span>
-                <div class="w-16 h-px bg-foreground/20"></div>
+                <div class="w-16 h-px bg-white/20"></div>
               </div>
-              <button class="mt-8 group flex items-center gap-4 text-xs tracking-[0.3em] uppercase text-foreground/70 hover:text-foreground transition-colors cursor-pointer">
+              <button class="mt-8 group flex items-center gap-4 text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors cursor-pointer">
                 <span>View Details</span>
                 <span class="w-8 h-px bg-current transition-all group-hover:w-12"></span>
               </button>
@@ -135,10 +138,11 @@
       </div>
 
       <div class="relative aspect-[3/4] md:aspect-[4/5] order-1 md:order-2">
-        <div class="absolute -inset-4 border border-foreground/5"></div>
-        <div class="absolute -inset-8 border border-foreground/5 hidden md:block"></div>
+        <!-- Marcos decorativos -->
+        <div class="absolute -inset-4 border border-white/5"></div>
+        <div class="absolute -inset-8 border border-white/5 hidden md:block"></div>
 
-        <div class="relative w-full h-full overflow-hidden bg-secondary">
+        <div class="relative w-full h-full overflow-hidden bg-neutral-900 border border-white/10">
           {#each showcaseItems as item, index (item.id)}
             <div
               bind:this={imagesRef[index]}
@@ -150,13 +154,16 @@
                 alt={item.name}
                 class="w-full h-full object-cover"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             </div>
           {/each}
         </div>
 
-        <div class="absolute -top-2 -left-2 w-8 h-8 border-l-2 border-t-2 border-foreground/20"></div>
-        <div class="absolute -bottom-2 -right-2 w-8 h-8 border-r-2 border-b-2 border-foreground/20"></div>
+        <!-- Esquinas del marco: Ahora con border-white/60 para que se vean blancas y nítidas -->
+        <div class="absolute -top-2 -left-2 w-6 h-6 border-l border-t border-white/60"></div>
+        <div class="absolute -bottom-2 -right-2 w-6 h-6 border-r border-b border-white/60"></div>
+        
+        <!-- Eliminadas las esquinas internas -->
       </div>
     </div>
   </div>

@@ -123,7 +123,7 @@
 
 <section
   bind:this={containerRef}
-  class="relative h-screen w-full overflow-hidden"
+  class="relative h-screen w-full overflow-hidden isolate"
 >
   <div
     bind:this={imageRef}
@@ -136,29 +136,32 @@
     />
   </div>
 
+  <!-- Capa negra adicional para legibilidad -->
+  <div class="absolute inset-0 bg-black/55 z-[1]"></div>
+
   <div
     bind:this={overlayRef}
-    class="absolute inset-0 bg-gradient-to-b from-background/70 via-background/50 to-background"
+    class="absolute inset-0 z-[2] bg-gradient-to-b from-black/70 via-black/45 to-black/70"
   ></div>
 
-  <div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]"></div>
+  <div class="absolute inset-0 z-[3] opacity-[0.03] pointer-events-none bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==')]"></div>
 
   <div class="relative z-10 flex flex-col items-center justify-center h-full px-6" style="perspective: 1000px;">
     <h1
       bind:this={titleRef}
       class="text-center overflow-hidden"
     >
-      <span class="hero-title-line block text-[14vw] md:text-[12vw] lg:text-[10vw] font-extralight tracking-[-0.03em] leading-[0.85] text-foreground drop-shadow-2xl">
+      <span class="hero-title-line block text-[14vw] md:text-[12vw] lg:text-[10vw] font-extralight tracking-[-0.03em] leading-[0.85] text-white drop-shadow-2xl">
         DEFYING
       </span>
-      <span class="hero-title-line block text-[14vw] md:text-[12vw] lg:text-[10vw] font-extralight tracking-[-0.03em] leading-[0.85] text-foreground drop-shadow-2xl">
+      <span class="hero-title-line block text-[14vw] md:text-[12vw] lg:text-[10vw] font-extralight tracking-[-0.03em] leading-[0.85] text-white drop-shadow-2xl">
         CONVENTION
       </span>
     </h1>
     
     <p
       bind:this={subtitleRef}
-      class="mt-10 md:mt-14 text-xs md:text-sm tracking-[0.4em] text-foreground/80 uppercase font-light"
+      class="mt-10 md:mt-14 text-xs md:text-sm tracking-[0.4em] text-white/80 uppercase font-light"
     >
       SS26 Collection Now Available
     </p>
@@ -166,13 +169,13 @@
 
   <div
     bind:this={scrollTextRef}
-    class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+    class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-10"
   >
-    <span class="text-[10px] tracking-[0.5em] text-foreground/60 uppercase font-light">
+    <span class="text-[10px] tracking-[0.5em] text-white/60 uppercase font-light">
       Scroll to Explore
     </span>
     <div class="relative w-px h-14 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-foreground/50 to-transparent animate-scroll-line"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent animate-scroll-line"></div>
     </div>
   </div>
 </section>

@@ -26,11 +26,11 @@
 </script>
 
 <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-6 md:px-12">
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between w-full">
     <a 
       href="/" 
       onclick={(e) => handleNavigate(e, '/')}
-      class="text-xl tracking-[0.3em] font-light text-foreground hover:text-muted-foreground transition-colors duration-300"
+      class="text-xl tracking-[0.3em] font-light text-white hover:text-white/80 transition-colors duration-300"
     >
       NOIR
     </a>
@@ -43,8 +43,8 @@
           class={cn(
             "text-xs tracking-[0.2em] uppercase transition-all duration-300",
             currentPath === link.href 
-              ? "text-foreground" 
-              : "text-muted-foreground hover:text-foreground"
+              ? "text-white" 
+              : "text-white/65 hover:text-white"
           )}
         >
           {link.label}
