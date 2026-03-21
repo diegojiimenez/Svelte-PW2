@@ -1,10 +1,17 @@
 <script lang="ts">
   import { cn } from '$lib/utils';
   
-  // En una SPA real con Vite, normalmente usarías una librería como 'svelte-routing'.
-  // Por ahora, simularemos la ruta actual con una runa $state que reacciona a los clicks.
-  // Más adelante, cuando añadas la lógica de navegación real, actualizarás este estado.
+  let { onOpenCart } = $props<{ onOpenCart: () => void }>();
   let currentPath = $state(window.location.pathname);
+
+  $effect(() => {
+    const handleLocationChange = () => {
+      currentPath = window.location.pathname;
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  });
 
   const links = [
     { href: '/', label: 'Home' },
@@ -48,6 +55,12 @@
           {link.label}
         </a>
       {/each}
+      <button 
+        onclick={onOpenCart}
+        class="text-xs tracking-[0.2em] uppercase text-white/60 hover:text-white transition-all duration-300 cursor-pointer"
+      >
+        Cart (2)
+      </button>
     </div>
   </div>
 </nav>

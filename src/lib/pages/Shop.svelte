@@ -4,6 +4,7 @@
   import ProductCard from '$lib/components/ProductCard.svelte';
   import { products, type Product } from '$lib/data';
   import { cn } from '$lib/utils';
+  import ProductModal from '$lib/components/ProductModal.svelte';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -150,15 +151,9 @@
     </div>
   {/if}
 
-  {#if isModalOpen && selectedProduct}
-    <div class="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-      <div class="bg-[#0f0f0f] border border-white/10 p-8 max-w-lg w-full relative">
-        <button onclick={handleCloseModal} class="absolute top-4 right-4 text-white/50 hover:text-white">✕</button>
-        <h2 class="text-2xl font-light text-white mb-2">{selectedProduct.name}</h2>
-        <p class="text-white/60 mb-6">${selectedProduct.price}</p>
-        <img src={selectedProduct.image} alt={selectedProduct.name} class="w-full h-64 object-cover mb-6 bg-neutral-900" />
-        <p class="text-xs text-white/40 tracking-wider leading-relaxed">{selectedProduct.description}</p>
-      </div>
-    </div>
-  {/if}
+<ProductModal 
+  product={selectedProduct} 
+  isOpen={isModalOpen} 
+  onClose={handleCloseModal} 
+/>
 </section>
