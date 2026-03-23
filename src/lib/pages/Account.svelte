@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import gsap from 'gsap';
+  import { auth } from '$lib/stores/auth';
 
 
   // Referencias del DOM
@@ -30,11 +31,18 @@
   });
 
   // Manejador del Formulario
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    console.log("Datos listos para enviar al backend:", { email, password, rememberMe });
-    // Aquí es donde harás tu const res = await fetch('http://localhost:3000/api/login', ...)
+async function handleSubmit(e: Event) {
+  e.preventDefault();
+
+  try {
+    await auth.login(email, password);
+    window.history.pushState({}, '', '/');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  } catch (err: any) {
+    console.error(err);
+    alert(err?.message ?? 'Error al iniciar sesión');
   }
+}
 
   function handleNavigate(e: MouseEvent, href: string) {
     e.preventDefault();

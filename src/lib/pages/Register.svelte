@@ -1,5 +1,6 @@
 <script lang="ts">
   import gsap from 'gsap';
+  import { auth } from '$lib/stores/auth';
 
   let containerRef: HTMLDivElement;
   let formRef: HTMLFormElement;
@@ -31,10 +32,22 @@
     window.dispatchEvent(new PopStateEvent('popstate'));
   }
 
-  function handleSubmit(e: Event) {
-    e.preventDefault();
-    console.log("Registrando usuario:", { fullName, email, password });
+async function handleSubmit(e: Event) {
+  e.preventDefault();
+
+  const parts = fullName.trim().split(/\s+/);
+  const nombre = parts.shift() || '';
+  const apellido = parts.join(' ') || 'Sin apellido';
+
+  try {
+    await auth.register({ nombre, apellido, email, password });
+    window.history.pushState({}, '', '/');
+    window.dispatchEvent(new PopStateEvent('popstate'));
+  } catch (err: any) {
+    console.error(err);
+    alert(err?.message ?? 'Error al registrar');
   }
+}
 </script>
 
 <div bind:this={containerRef} class="min-h-screen w-full relative flex items-center justify-center px-6 py-32 overflow-hidden bg-[#0a0a0a]">
