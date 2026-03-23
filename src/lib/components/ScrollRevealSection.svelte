@@ -81,8 +81,6 @@
   bind:this={containerRef}
   class="relative h-screen w-full bg-[#0a0a0a] overflow-hidden" 
 >
-  <!-- Cambiado bg-black a bg-[#0a0a0a] (gris muy oscuro) para que resalte el número -->
-  <!-- Eliminamos el gradiente que tenía 'secondary/30' para evitar colores extraños -->
   <div class="absolute inset-0 bg-gradient-to-br from-[#0a0a0a] via-[#0a0a0a] to-neutral-800/20"></div>
 
   <div class="absolute left-8 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-4">
@@ -111,7 +109,6 @@
             class="absolute inset-0 flex flex-col justify-center"
             style="opacity: {index === 0 ? 1 : 0};"
           >
-            <!-- Aumentada la opacidad de 0.03 a 0.08 -->
             <span class="text-[120px] md:text-[200px] font-extralight text-white/[0.08] absolute -left-4 md:-left-8 top-0 leading-none select-none z-0">
               {String(index + 1).padStart(2, '0')}
             </span>
@@ -159,11 +156,9 @@
           {/each}
         </div>
 
-        <!-- Esquinas del marco: Ahora con border-white/60 para que se vean blancas y nítidas -->
         <div class="absolute -top-2 -left-2 w-6 h-6 border-l border-t border-white/60"></div>
         <div class="absolute -bottom-2 -right-2 w-6 h-6 border-r border-b border-white/60"></div>
         
-        <!-- Eliminadas las esquinas internas -->
       </div>
     </div>
   </div>

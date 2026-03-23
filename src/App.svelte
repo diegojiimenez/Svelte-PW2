@@ -9,7 +9,8 @@
   import Home from '$lib/pages/Home.svelte';
   import Shop from '$lib/pages/Shop.svelte';
   import Account from '$lib/pages/Account.svelte';
-  import Register from '$lib/pages/Register.svelte'; // <-- Importamos Registro
+  import Register from '$lib/pages/Register.svelte'; 
+  import Admin from '$lib/pages/Admin.svelte';
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -40,6 +41,8 @@
       <Account />
     {:else if currentPath === '/register'}
       <Register />
+    {:else if currentPath === '/admin'}  
+      <Admin />
     {:else}
       <section class="min-h-screen pt-32 flex items-center justify-center">
         <h1 class="text-2xl text-foreground font-light tracking-widest uppercase">404 - Not Found</h1>

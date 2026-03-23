@@ -18,7 +18,6 @@
   // EL BUSCADOR FUNCIONAL (Añade puntos en tu rúbrica)
   let searchQuery = $state('');
   
-  // RUNA $derived: Se actualiza automáticamente cada vez que el usuario escribe en la barra
   let filteredProducts = $derived(
     products.filter(product => 
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 

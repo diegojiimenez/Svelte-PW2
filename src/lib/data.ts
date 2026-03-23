@@ -9,6 +9,7 @@ export interface Product {
   colors: { name: string; hex: string }[]
   sizes: string[]
   description: string
+  quantity: number  // ← Agregar esto
 }
 
 export const products: Product[] = [
@@ -27,6 +28,7 @@ export const products: Product[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description: 'Premium heavyweight cotton tee with dropped shoulders and raw-edge hem. Garment-dyed for a lived-in feel.',
+    quantity: 1,
   },
   {
     id: '2',
@@ -42,6 +44,7 @@ export const products: Product[] = [
     ],
     sizes: ['28', '30', '32', '34', '36'],
     description: 'Technical cargo pants with articulated knees and adjustable cuffs. Water-resistant ripstop fabric.',
+    quantity: 1,
   },
   {
     id: '3',
@@ -57,6 +60,7 @@ export const products: Product[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     description: 'Full-grain Italian leather jacket with asymmetrical zip closure. Silk-lined interior with hidden pockets.',
+    quantity: 1,
   },
   {
     id: '4',
@@ -73,6 +77,7 @@ export const products: Product[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     description: 'Double-faced cotton hoodie with kangaroo pocket and ribbed trims. Brushed interior for ultimate comfort.',
+    quantity: 1,
   },
   {
     id: '5',
@@ -88,6 +93,7 @@ export const products: Product[] = [
     ],
     sizes: ['S', 'M', 'L', 'XL'],
     description: 'Nylon bomber with quilted lining and ribbed cuffs. Features custom hardware and internal organizer pockets.',
+    quantity: 1,
   },
   {
     id: '6',
@@ -103,6 +109,7 @@ export const products: Product[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL'],
     description: 'Relaxed-fit track pants in premium French terry. Subtle tonal branding and tapered leg.',
+    quantity: 1,
   },
   {
     id: '7',
@@ -118,6 +125,7 @@ export const products: Product[] = [
     ],
     sizes: ['S', 'M', 'L'],
     description: 'Italian virgin wool overcoat with notched lapels. Fully lined with horn buttons.',
+    quantity: 1,
   },
   {
     id: '8',
@@ -134,6 +142,7 @@ export const products: Product[] = [
     ],
     sizes: ['XS', 'S', 'M', 'L'],
     description: 'Ribbed cotton tank with raw-cut armholes. Relaxed boxy fit with elongated hem.',
+    quantity: 1,
   },
 ]
 
