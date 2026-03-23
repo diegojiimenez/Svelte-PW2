@@ -32,36 +32,31 @@
   let selectedProduct: Product | null = $state(null);
   let isModalOpen = $state(false);
 
-  // Search + pagination + category filter
-  let searchQuery = $state('');
-  let visibleCount = $state(10);
+  // Filtro de categoría
+  let selectedCategory = $state('All');
+  const categories = ['All', 'Tops', 'Bottoms', 'Outerwear'];
 
-  let activeCategory = $state<'All' | 'Tops' | 'Bottoms' | 'Outerwear'>('All');
-  const categoryFilters = ['All', 'Tops', 'Bottoms', 'Outerwear'] as const;
+  // Search + pagination + filtro
+  let searchQuery = $state('');
+  let visibleCount = $state(5);
 
   let filteredProducts = $derived(
-    products.filter((product) => {
-      const q = searchQuery.toLowerCase();
-
-      const matchesSearch =
-        product.name.toLowerCase().includes(q) ||
-        product.category.toLowerCase().includes(q);
-
-      const matchesCategory =
-        activeCategory === 'All' || product.category === activeCategory;
-
-      return matchesSearch && matchesCategory;
-    })
+    products.filter((product) =>
+      (selectedCategory === 'All' || product.category === selectedCategory) &&
+      (
+        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.category.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    )
   );
 
   let visibleProducts = $derived(filteredProducts.slice(0, visibleCount));
   let hasMore = $derived(visibleCount < filteredProducts.length);
 
-  // Reset pagination when search or category changes
+  // Reset pagination when search changes
   $effect(() => {
     searchQuery;
-    activeCategory;
-    visibleCount = 10;
+    visibleCount = 5;
   });
 
   function handleQuickView(product: Product) {
@@ -162,24 +157,20 @@
           <p class="mt-6 text-red-400 tracking-[0.2em] uppercase text-xs">
             {productsError}
           </p>
-        {:else}
-          <p class="mt-6 text-white/30 tracking-[0.2em] uppercase text-xs">
-            Showing {visibleProducts.length} of {filteredProducts.length}
-          </p>
         {/if}
       </div>
 
-      <!-- Category filters -->
+      <!-- filtros (UI por ahora, sin lógica) -->
       <div class="flex flex-wrap gap-3">
-        {#each categoryFilters as filter}
+        {#each categories as filter, i}
           <button
-            onclick={() => (activeCategory = filter)}
             class={cn(
               "px-4 py-2 text-[10px] tracking-[0.2em] uppercase border transition-all duration-300 cursor-pointer",
-              activeCategory === filter
+              filter === selectedCategory
                 ? "bg-white text-black border-white"
                 : "border-white/20 text-white/50 hover:text-white hover:border-white/50"
             )}
+            on:click={() => selectedCategory = filter}
           >
             {filter}
           </button>
@@ -206,7 +197,7 @@
   {#if hasMore}
     <div class="max-w-7xl mx-auto mt-20 flex justify-center">
       <button
-        onclick={handleLoadMore}
+        on:click={handleLoadMore}
         class="group relative px-12 py-4 text-xs tracking-[0.3em] uppercase text-white border border-white/20 hover:border-white/60 transition-colors duration-300 overflow-hidden cursor-pointer"
       >
         <span class="relative z-10">Load More</span>
