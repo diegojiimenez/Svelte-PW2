@@ -1,19 +1,48 @@
 <script lang="ts">
   import gsap from 'gsap';
   import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  import { showcaseItems } from '$lib/data';
 
   gsap.registerPlugin(ScrollTrigger);
+
+  // Showcase items directamente aquí
+  const showcaseItems = [
+    {
+      id: 1,
+      name: 'OVERSIZED JACKET',
+      subtitle: 'Structured Silhouette',
+      price: '$890',
+      image: '/images/scroll-item-1.jpg',
+    },
+    {
+      id: 2,
+      name: 'VOID HOODIE',
+      subtitle: 'Comfort Redefined',
+      price: '$450',
+      image: '/images/scroll-item-2.jpg',
+    },
+    {
+      id: 3,
+      name: 'CARGO TROUSERS',
+      subtitle: 'Utilitarian Design',
+      price: '$580',
+      image: '/images/scroll-item-3.jpg',
+    },
+    {
+      id: 4,
+      name: 'COMBAT BOOTS',
+      subtitle: 'Foundation Piece',
+      price: '$720',
+      image: '/images/scroll-item-4.jpg',
+    },
+  ];
 
   // Referencias del DOM
   let containerRef: HTMLElement;
   let progressRef: HTMLDivElement;
   
-  // En Svelte 5, los arrays de referencias se manejan de forma muy limpia
   let imagesRef: HTMLDivElement[] = [];
   let textRefs: HTMLDivElement[] = [];
   
-  // Estado reactivo para saber qué elemento está visible (runa de Svelte 5)
   let activeIndex = $state(0);
 
   $effect(() => {
@@ -21,25 +50,19 @@
     const totalItems = showcaseItems.length;
 
     const ctx = gsap.context(() => {
-      // Fijar la sección y crear el efecto de scroll-jacking
       ScrollTrigger.create({
         trigger: containerRef,
         start: 'top top',
         end: `+=${totalItems * 100}%`,
-        pin: true, // Esto es lo que "pega" la sección a la pantalla
+        pin: true,
         scrub: 0.5,
         onUpdate: (self) => {
           const progress = self.progress;
-          // Calcular el índice actual basado en cuánto hemos scrolleado
           const newIndex = Math.min(
             Math.floor(progress * totalItems),
             totalItems - 1
           );
-          
-          // Actualizar el estado de Svelte (esto actualiza los puntitos en móvil)
           activeIndex = newIndex;
-
-          // Animar la barra de progreso vertical
           if (progressRef) {
             gsap.to(progressRef, {
               scaleY: progress,
@@ -47,8 +70,6 @@
               ease: 'none',
             });
           }
-
-          // Animar las Imágenes
           imagesRef.forEach((img, i) => {
             if (!img) return;
             if (i === newIndex) {
@@ -59,8 +80,6 @@
               gsap.to(img, { opacity: 0, scale: 0.95, duration: 0.6, ease: 'power2.out' });
             }
           });
-
-          // Animar los Textos
           textRefs.forEach((text, i) => {
             if (!text) return;
             if (i === newIndex) {

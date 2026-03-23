@@ -37,7 +37,7 @@
         "absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out",
         isHovered ? "scale-100 opacity-100" : "scale-110 opacity-0"
       )}
-      style="background-image: url({product.imageAlt})"
+      style="background-image: url({product.imageAlt || product.image})"
     ></div>
     
     <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
