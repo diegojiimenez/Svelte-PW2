@@ -38,7 +38,7 @@
 
   // Search + pagination + filtro
   let searchQuery = $state('');
-  let visibleCount = $state(5);
+  let visibleCount = $state(4);
 
   let filteredProducts = $derived(
     products.filter((product) =>
@@ -56,7 +56,7 @@
   // Reset pagination when search changes
   $effect(() => {
     searchQuery;
-    visibleCount = 5;
+    visibleCount = 4;
   });
 
   function handleQuickView(product: Product) {
