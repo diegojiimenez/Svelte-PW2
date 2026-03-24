@@ -43,7 +43,7 @@
   $effect(() => {
     if (productToEdit) {
       name = productToEdit.name;
-      category = productToEdit.category || 'Tops'; // Si no tiene, pone Tops
+      category = productToEdit.category || 'Tops'; 
       price = productToEdit.price;
       quantity = productToEdit.quantity ?? 1;
       status = productToEdit.status;
@@ -54,7 +54,7 @@
       colors = [...(productToEdit.colors || [])];
     } else {
       name = '';
-      category = 'Tops'; // Al crear uno nuevo, empieza en Tops
+      category = 'Tops';
       price = '';
       quantity = 1;
       status = 'active';

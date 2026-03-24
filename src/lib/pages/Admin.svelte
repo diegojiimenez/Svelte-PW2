@@ -3,7 +3,7 @@
   import { cn } from '$lib/utils';
   import type { Product } from '$lib/data';
   import ProductEditorModal from '$lib/components/ProductEditorModal.svelte';
-  import Toast from '$lib/components/Toast.svelte'; // Importamos el Toast
+  import Toast from '$lib/components/Toast.svelte';
   
   import { productsStore } from '$lib/stores/products';
   import { adminOrderStore } from '$lib/stores/adminOrders';
@@ -63,7 +63,7 @@
         await productsStore.add(productData);
         showToast('Product created successfully.', 'success');
       }
-      closeEditorModal(); // Cerramos el modal sólo si fue exitoso
+      closeEditorModal();
     } catch (error: any) {
       showToast(error?.message || 'Error saving product', 'error');
     }
@@ -86,10 +86,10 @@
   // Paleta de colores brutalista + semántica
   function getStatusColor(status: string) {
     switch(status) {
-      case 'Placed': return 'text-white border-white/30 bg-white/5'; // Blanco tenue
-      case 'In Transit': return 'text-amber-400 border-amber-400/30 bg-amber-400/5'; // Amarillo/Naranja
-      case 'Completed': return 'text-emerald-400 border-emerald-400/30 bg-emerald-400/5'; // Verde
-      case 'Cancelled': return 'text-red-500 border-red-500/30 bg-red-500/5'; // Rojo
+      case 'Placed': return 'text-white border-white/30 bg-white/5';
+      case 'In Transit': return 'text-amber-400 border-amber-400/30 bg-amber-400/5';
+      case 'Completed': return 'text-emerald-400 border-emerald-400/30 bg-emerald-400/5';
+      case 'Cancelled': return 'text-red-500 border-red-500/30 bg-red-500/5';
       default: return 'text-white/50 border-white/10';
     }
   }
@@ -141,7 +141,8 @@
                 <tr class="border-b border-white/10">
                   <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Product</th>
                   <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Category</th>
-                  <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Qty</th> <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Price</th>
+                  <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Qty</th>
+                  <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Price</th>
                   <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Status</th>
                   <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal text-right">Actions</th>
                 </tr>
@@ -187,12 +188,13 @@
                 <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Customer</th>
                 <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Item</th>
                 <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Date</th>
+                <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Total</th>
                 <th class="py-4 text-[10px] tracking-[0.3em] uppercase text-white/40 font-normal">Status</th>
               </tr>
             </thead>
             <tbody>
               {#if $adminOrderStore.loading && $adminOrderStore.items.length === 0}
-                <tr><td colspan="5" class="py-8 text-center text-xs text-white/40">Loading orders...</td></tr>
+                <tr><td colspan="6" class="py-8 text-center text-xs text-white/40">Loading orders...</td></tr>
               {/if}
 
               {#each $adminOrderStore.items as order}
@@ -201,6 +203,7 @@
                   <td class="py-4 text-sm font-light text-white">{order.customer}</td>
                   <td class="py-4 text-xs tracking-wider text-white/80">{order.item}</td>
                   <td class="py-4 text-xs text-white/50">{order.date}</td>
+                  <td class="py-4 text-sm text-white/80">{order.total}</td>
                   <td class="py-4 flex items-center justify-between">
                     
                     <span class={cn("px-2 py-1 text-[9px] tracking-[0.2em] uppercase border", getStatusColor(order.status))}>

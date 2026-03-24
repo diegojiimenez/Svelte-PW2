@@ -54,66 +54,83 @@
           '-=0.4'
         );
 
-      // 4. Efectos basados en el SCROLL
+      // 4. Efectos basados en el SCROLL (CORREGIDOS)
+      // Usamos fromTo + immediateRender:false para forzar el punto de partida real 
+      // y evitar el salto brusco al interrumpir la animación de entrada.
       
-      // Zoom in al fondo al hacer scroll hacia abajo
-      gsap.to(imageRef, {
-        scale: 1.3,
-        scrollTrigger: {
-          trigger: containerRef,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.5,
-        },
-      });
+      gsap.fromTo(imageRef, 
+        { scale: 1 }, // Obligamos a que la base sea 1
+        {
+          scale: 1.15, // Un zoom más suave (1.15 en lugar de 1.3)
+          immediateRender: false, // No lo apliques de inmediato
+          scrollTrigger: {
+            trigger: containerRef,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
 
-      // El overlay se oscurece al hacer scroll
-      gsap.to(overlayRef, {
-        opacity: 0.95,
-        scrollTrigger: {
-          trigger: containerRef,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      });
+      gsap.fromTo(overlayRef, 
+        { opacity: 0.6 },
+        {
+          opacity: 0.95,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: containerRef,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1,
+          },
+        }
+      );
 
-      // Parallax del título (sube más rápido que el scroll normal)
-      gsap.to('.hero-title-line', {
-        y: -80,
-        opacity: 0.3,
-        stagger: 0.05,
-        scrollTrigger: {
-          trigger: containerRef,
-          start: 'top top',
-          end: '80% top',
-          scrub: 1,
-        },
-      });
+      gsap.fromTo('.hero-title-line', 
+        { y: 0, opacity: 1 },
+        {
+          y: -80,
+          opacity: 0.3,
+          stagger: 0.05,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: containerRef,
+            start: 'top top',
+            end: '80% top',
+            scrub: 1,
+          },
+        }
+      );
 
-      // Parallax del subtítulo
-      gsap.to(subtitleRef, {
-        y: -40,
-        opacity: 0,
-        scrollTrigger: {
-          trigger: containerRef,
-          start: 'top top',
-          end: '50% top',
-          scrub: 1,
-        },
-      });
+      gsap.fromTo(subtitleRef, 
+        { y: 0, opacity: 1 },
+        {
+          y: -40,
+          opacity: 0,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: containerRef,
+            start: 'top top',
+            end: '50% top',
+            scrub: 1,
+          },
+        }
+      );
 
-      // Desvanecer el indicador de scroll rápido
-      gsap.to(scrollTextRef, {
-        opacity: 0,
-        y: -20,
-        scrollTrigger: {
-          trigger: containerRef,
-          start: '5% top',
-          end: '15% top',
-          scrub: true,
-        },
-      });
+      gsap.fromTo(scrollTextRef, 
+        { y: 0, opacity: 1 },
+        {
+          opacity: 0,
+          y: -20,
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: containerRef,
+            start: '5% top',
+            end: '15% top',
+            scrub: true,
+          },
+        }
+      );
     }, containerRef);
 
     // Función de limpieza de Svelte 5 (se ejecuta al desmontar)
@@ -136,7 +153,6 @@
     />
   </div>
 
-  <!-- Capa negra adicional para legibilidad -->
   <div class="absolute inset-0 bg-black/55 z-[1]"></div>
 
   <div

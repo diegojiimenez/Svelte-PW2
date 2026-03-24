@@ -26,6 +26,8 @@
       document.body.style.overflow = 'hidden'; 
       gsap.to(overlayRef, { opacity: 1, duration: 0.3, ease: 'power2.out', pointerEvents: 'auto' });
       gsap.to(drawerRef, { x: 0, duration: 0.5, ease: 'power3.out' });
+      
+      cartStore.load();
     } else {
       document.body.style.overflow = '';
       gsap.to(overlayRef, { opacity: 0, duration: 0.3, ease: 'power2.in', pointerEvents: 'none' });

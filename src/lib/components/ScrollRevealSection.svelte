@@ -144,10 +144,6 @@
                 </span>
                 <div class="w-16 h-px bg-white/20"></div>
               </div>
-              <button class="mt-8 group flex items-center gap-4 text-xs tracking-[0.3em] uppercase text-white/60 hover:text-white transition-colors cursor-pointer">
-                <span>View Details</span>
-                <span class="w-8 h-px bg-current transition-all group-hover:w-12"></span>
-              </button>
             </div>
           </div>
         {/each}
