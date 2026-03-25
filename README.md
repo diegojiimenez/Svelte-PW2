@@ -1,4 +1,4 @@
-# NOIR - Brutalist E-Commerce 🌑
+# NOIR - Brutalist E-Commerce 
 
 NOIR es una Single Page Application (SPA) de comercio electrónico de alta costura, construida con un enfoque de diseño brutalista y minimalista. El proyecto utiliza las últimas características reactivas de **Svelte 5** en el frontend y un backend robusto con **Node.js, Express y MongoDB**.
 
