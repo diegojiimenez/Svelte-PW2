@@ -80,7 +80,6 @@
     }
   }
 
-  // ÓRDENES
   const allowedStatuses = ["Placed", "In Transit", "Completed", "Cancelled"];
 
   // Paleta de colores brutalista + semántica

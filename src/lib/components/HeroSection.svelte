@@ -62,7 +62,7 @@
         { scale: 1 }, // Obligamos a que la base sea 1
         {
           scale: 1.15, // Un zoom más suave (1.15 en lugar de 1.3)
-          immediateRender: false, // No lo apliques de inmediato
+          immediateRender: false, 
           scrollTrigger: {
             trigger: containerRef,
             start: 'top top',

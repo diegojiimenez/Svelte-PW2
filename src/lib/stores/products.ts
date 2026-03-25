@@ -16,7 +16,6 @@ function createProductsStore() {
     error: null
   });
 
-  // GET: Cargar productos (Público para la tienda, no bloquea si no hay token)
   async function load() {
     set({ loading: true, items: [], error: null });
 
@@ -33,7 +32,6 @@ function createProductsStore() {
     }
   }
 
-  // POST: Crear producto (Protegido para Admin)
   async function add(data: Partial<Product>) {
     let token: string | undefined = undefined;
     const unsub = auth.subscribe((a) => (token = a.token || undefined));
@@ -51,7 +49,6 @@ function createProductsStore() {
     update(s => ({ ...s, items: [res.data, ...s.items] }));
   }
 
-  // PUT: Editar producto (Protegido para Admin)
   async function updateItem(id: string, data: Partial<Product>) {
     let token: string | undefined = undefined;
     const unsub = auth.subscribe((a) => (token = a.token || undefined));
@@ -69,7 +66,6 @@ function createProductsStore() {
     update(s => ({ ...s, items: s.items.map(p => (p.id === id || (p as any)._id === id) ? res.data : p) }));
   }
 
-  // DELETE: Eliminar producto (Protegido para Admin)
   async function remove(id: string) {
     let token: string | undefined = undefined;
     const unsub = auth.subscribe((a) => (token = a.token || undefined));
