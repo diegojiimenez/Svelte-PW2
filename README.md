@@ -12,7 +12,7 @@ NOIR es una Single Page Application (SPA) de comercio electrónico de alta costu
 
 ## Implementación de Svelte 5 (Runes)
 
-Este proyecto ha sido desarrollado abandonando la reactividad clásica de Svelte 4 para adoptar completamente el nuevo paradigma de **Runes** de Svelte 5, garantizando un código más limpio, predecible y optimizado.
+Este proyecto ha sido desarrollado abandonando la reactividad clásica de Svelte 4 para adoptar completamente el nuevo paradigma de **Runes** de Svelte 5, garantizando un código más limpio y optimizado.
 
 ### 1. Estado Principal (`$state`)
 Se ha utilizado `$state()` para manejar toda la mutabilidad de la aplicación, tanto en el estado global (mediante stores) como en el estado local de los componentes.
