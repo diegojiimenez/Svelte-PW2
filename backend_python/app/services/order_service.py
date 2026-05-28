@@ -5,7 +5,6 @@ from datetime import datetime
 
 from app.repositories import cart_repository, order_repository
 
-_ALLOWED_STATUSES = ["Placed", "In Transit", "Completed", "Cancelled"]
 
 
 def _format_date(date: datetime) -> str:
@@ -127,8 +126,6 @@ async def get_all_for_admin() -> list:
 
 
 async def update_status(order_number: str, status: str) -> dict:
-    if status not in _ALLOWED_STATUSES:
-        raise ValueError("Status inválido")
     updated = await order_repository.update_status(order_number, status)
     if not updated:
         raise ValueError("Orden no encontrada")
