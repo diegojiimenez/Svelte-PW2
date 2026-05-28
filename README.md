@@ -1,11 +1,11 @@
-# NOIR - Brutalist E-Commerce 
+# NOIR - Brutalist E-Commerce
 
-NOIR es una Single Page Application (SPA) de comercio electrónico de alta costura, construida con un enfoque de diseño brutalista y minimalista. El proyecto utiliza las últimas características reactivas de **Svelte 5** en el frontend y un backend robusto con **Node.js, Express y MongoDB**.
+NOIR es una Single Page Application (SPA) de comercio electrónico de alta costura, construida con un enfoque de diseño brutalista y minimalista. El proyecto utiliza las últimas características reactivas de **Svelte 5** en el frontend y un backend robusto con **Python, FastAPI y MongoDB**.
 
 ## Tecnologías Usadas
 
 * **Frontend:** Svelte 5 (Runes), Vite, TailwindCSS, GSAP (ScrollTrigger para animaciones de alto rendimiento).
-* **Backend:** Node.js, Express, MongoDB (Mongoose), JWT para autenticación.
+* **Backend:** Python, FastAPI, MongoDB (Motor async), JWT para autenticación.
 * **Arquitectura Frontend:** SPA nativa con enrutador propio basado en el estado de la URL.
 
 ---
@@ -22,7 +22,7 @@ Se ha utilizado `$state()` para manejar toda la mutabilidad de la aplicación, t
 
 ### 2. Valores Derivados (`$derived`)
 Se implementó `$derived()` para calcular valores al vuelo basándose en el estado actual, evitando recálculos innecesarios:
-* **Contador del Carrito:** En `Navigation.svelte`, el número de items se calcula automáticamente sumando las cantidades: 
+* **Contador del Carrito:** En `Navigation.svelte`, el número de items se calcula automáticamente sumando las cantidades:
   `let totalItems = $derived($cartStore.items.reduce((acc, item) => acc + item.quantity, 0));`
 * **Cálculo de Subtotal:** En `CartDrawer.svelte`, se deriva el precio total de los items en el carrito.
 * **Filtrado en Tiempo Real:** En `Shop.svelte`, `let filteredProducts = $derived(...)` actualiza el grid de productos instantáneamente al escribir en la barra de búsqueda.
@@ -42,95 +42,166 @@ Siguiendo las mejores prácticas de Svelte 5, **se ha descartado el uso de `crea
 
 ---
 
-## Integración con el Backend (API REST)
+## Backend Python con FastAPI
 
-El frontend se comunica con una API RESTful en Express. Se han definido flujos estrictos basados en **Roles de Usuario** (Usuarios normales vs Administradores).
+El backend ha sido reescrito íntegramente en **Python usando FastAPI**, manteniendo exactamente el mismo contrato de API que consume el frontend Svelte.
 
-### Endpoints Principales Utilizados:
+### Arquitectura en capas
+
+```text
+backend_python/
+ ┣ main.py                    # Punto de entrada, CORS y manejadores globales de errores
+ ┣ requirements.txt
+ ┣ .env
+ ┣ app/
+ ┃ ┣ config.py                # Configuración centralizada (pydantic-settings)
+ ┃ ┣ database.py              # Conexión a MongoDB con Motor (async)
+ ┃ ┣ schemas/                 # Validación de entrada con Pydantic
+ ┃ ┃ ┣ auth.py
+ ┃ ┃ ┣ product.py
+ ┃ ┃ ┣ cart.py
+ ┃ ┃ ┣ order.py
+ ┃ ┃ ┗ user.py
+ ┃ ┣ repositories/            # Acceso a datos (operaciones MongoDB)
+ ┃ ┃ ┣ user_repository.py
+ ┃ ┃ ┣ product_repository.py
+ ┃ ┃ ┣ cart_repository.py
+ ┃ ┃ ┗ order_repository.py
+ ┃ ┣ services/                # Lógica de negocio
+ ┃ ┃ ┣ auth_service.py
+ ┃ ┃ ┣ product_service.py
+ ┃ ┃ ┣ cart_service.py
+ ┃ ┃ ┣ order_service.py
+ ┃ ┃ ┗ user_service.py
+ ┃ ┣ routers/                 # Controladores HTTP (endpoints)
+ ┃ ┃ ┣ auth.py
+ ┃ ┃ ┣ products.py
+ ┃ ┃ ┣ cart.py
+ ┃ ┃ ┣ orders.py
+ ┃ ┃ ┗ users.py
+ ┃ ┗ dependencies/
+ ┃   ┗ auth.py                # Middleware JWT: get_current_user + require_role()
+ ┗ seed/
+   ┣ seed_products.py
+   ┗ products.seed.json
+```
+
+### Endpoints de la API
 
 **Autenticación (`/api/auth`)**
-* `POST /login` y `POST /register`: Públicos. Devuelven el JWT y la información del usuario (`rol`, `nombre`).
+* `POST /register` y `POST /login`: Públicos. Devuelven el JWT y la información del usuario.
+* `GET /me`: Protegido (JWT). Devuelve el perfil del usuario autenticado.
 
 **Productos (`/api/products`)**
-* `GET /`: **Público**. Carga el catálogo en la vista `/shop` y en la tabla del panel Admin.
-* `POST /`, `PUT /:id`, `DELETE /:id`: **Protegidos (Requieren Rol: `administrador`)**. Ejecutados desde el modal de edición en el panel Admin.
+* `GET /`, `GET /:id`: Protegidos (JWT). Lectura del catálogo.
+* `POST /`, `PUT /:id`, `DELETE /:id`: Protegidos (rol `administrador`). CRUD desde el panel Admin.
 
 **Carrito (`/api/cart`)**
-* `GET /`, `POST /items`, `PUT /items/:id`, `DELETE /items/:id`: **Protegidos (Requieren JWT válido)**. El controlador asocia el carrito automáticamente al `req.user.id`.
+* `GET /`, `POST /items`, `PUT /items/:id`, `DELETE /items/:id`, `DELETE /clear`: Protegidos (JWT).
 
 **Órdenes (`/api/orders`)**
-* `POST /`: **Protegido (Usuario normal)**. Toma los items actuales del carrito del usuario, crea la orden y vacía el carrito.
-* `GET /`: **Protegido (Requiere Rol: `administrador`)**. Obtiene todas las órdenes del sistema para poblar la pestaña de "Orders" en `Admin.svelte`.
-* `PUT /:orderNumber/status`: **Protegido (Requiere Rol: `administrador`)**. Actualiza el estado de envío (Placed, In Transit, Completed, Cancelled).
+* `POST /`: Protegido (usuario). Crea una orden desde el carrito y lo vacía.
+* `GET /my`: Protegido (usuario). Lista las órdenes propias.
+* `GET /`: Protegido (administrador). Lista todas las órdenes del sistema.
+* `PUT /:orderNumber/status`: Protegido (administrador). Actualiza el estado de envío.
+
+**Usuarios (`/api/users`)**
+* `GET /`, `GET /:id`, `PUT /:id`, `DELETE /:id`: Protegidos (administrador). CRUD completo de usuarios.
+
+### Validación y manejo de errores
+
+* Los schemas de **Pydantic** validan automáticamente todos los datos de entrada (rangos, formatos, campos obligatorios). Los errores de validación devuelven `422 Unprocessable Entity`.
+* Manejadores globales capturan `HTTPException`, `RequestValidationError`, `DuplicateKeyError` de MongoDB y cualquier excepción no controlada, devolviendo siempre el formato `{ "success": false, "message": "..." }`.
+
+---
+
+## Integración con el Frontend
+
+El frontend Svelte no requiere ninguna modificación: el contrato de API (URLs, métodos HTTP y estructura JSON) es idéntico al backend anterior. FastAPI expone además documentación interactiva en `http://localhost:3000/docs`.
 
 ---
 
 ## Estructura del Proyecto
 
-El proyecto está claramente dividido en dos carpetas principales que separan la lógica del servidor de la interfaz de usuario.
-
 ```text
 📦 NOIR-ECOMMERCE
- ┣ 📂 backend/                    # Node.js + Express
- ┃ ┣ 📂 src/
- ┃ ┃ ┣ 📂 config/               # Conexión a MongoDB (db.js)
- ┃ ┃ ┣ 📂 controllers/          # Lógica de negocio (auth, cart, order, product)
- ┃ ┃ ┣ 📂 middleware/           # Protección de rutas y verificación de roles (auth.js)
- ┃ ┃ ┣ 📂 models/               # Esquemas de Mongoose (Cart, Order, Product, User)
- ┃ ┃ ┗ 📂 routes/               # Definición de Endpoints
- ┃ ┣ 📜 app.js                  # Configuración de Express
- ┃ ┗ 📜 server.js               # Punto de entrada del backend
+ ┣ 📂 backend_python/            # Python + FastAPI (backend activo)
+ ┃ ┣ 📂 app/
+ ┃ ┃ ┣ 📂 schemas/              # Validación con Pydantic
+ ┃ ┃ ┣ 📂 repositories/         # Acceso a MongoDB (Motor async)
+ ┃ ┃ ┣ 📂 services/             # Lógica de negocio
+ ┃ ┃ ┣ 📂 routers/              # Controladores HTTP
+ ┃ ┃ ┗ 📂 dependencies/         # Middleware de autenticación JWT
+ ┃ ┣ 📂 seed/                   # Script y datos de seed
+ ┃ ┣ 📜 main.py                 # Punto de entrada
+ ┃ ┗ 📜 requirements.txt
  ┃
- ┗ 📂 frontend/                   # Svelte 5 + Vite
-   ┣ 📂 src/
-   ┃ ┣ 📂 lib/
-   ┃ ┃ ┣ 📂 components/         # Componentes UI (CartDrawer, Navigation, Toasts, Modales)
-   ┃ ┃ ┣ 📂 pages/              # Vistas principales (Home, Shop, Admin, Login)
-   ┃ ┃ ┗ 📂 stores/             # Estado global (auth.ts, cart.ts, products.ts, adminOrders.ts)
-   ┃ ┣ 📜 App.svelte            # Router principal SPA y Layout maestro
-   ┃ ┗ 📜 main.ts               # Punto de entrada de Svelte
-   ┗ 📜 tailwind.config.js      # Configuración de estilos
+ ┗ 📂 src/                       # Svelte 5 + Vite (frontend)
+   ┣ 📂 lib/
+   ┃ ┣ 📂 components/           # Componentes UI
+   ┃ ┣ 📂 pages/                # Vistas principales
+   ┃ ┗ 📂 stores/               # Estado global
+   ┣ 📜 App.svelte              # Router SPA y layout maestro
+   ┗ 📜 main.ts                 # Punto de entrada de Svelte
 ```
+
+---
 
 ## Instrucciones de Instalación y Ejecución
 
 ### Requisitos Previos
 
-- Node.js (v18 o superior)
-- MongoDB (Local o Atlas)
+- Python 3.12 o superior
+- Node.js v18 o superior
+- MongoDB (local o Atlas)
 
 ---
 
-### 1. Configuración del Backend
+### 1. Configuración del Backend (Python / FastAPI)
 
-1. Abre una terminal y navega a la carpeta del backend:
+1. Navega a la carpeta del backend:
    ```bash
-   cd backend
+   cd backend_python
    ```
 
-2. Instala las dependencias:
+2. Crea y activa un entorno virtual:
    ```bash
-   npm install
+   python3 -m venv .venv
+   source .venv/bin/activate      # Linux / macOS
+   .venv\Scripts\activate         # Windows
    ```
 
-3. Crea un archivo `.env` en la raíz de la carpeta `backend` con las siguientes variables:
+3. Instala las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Crea el archivo `.env` en `backend_python/`:
    ```env
    PORT=3000
-   MONGO_URI=tu_cadena_de_conexion_a_mongodb
-   JWT_SECRET=tu_secreto_super_seguro
+   MONGODB_URI=mongodb://127.0.0.1:27017/svelte_pw2
+   JWT_SECRET=tu_clave_secreta_larga_y_random
+   JWT_EXPIRE=7d
+   CORS_ORIGIN=http://localhost:5173
    ```
 
-4. Inicia el servidor en modo desarrollo:
+5. (Opcional) Carga los productos de ejemplo:
    ```bash
-   npm run dev
+   python seed/seed_products.py
+   ```
+
+6. Inicia el servidor:
+   ```bash
+   python main.py
    ```
    > El servidor correrá en `http://localhost:3000`
+   > Documentación interactiva disponible en `http://localhost:3000/docs`
 
 ---
 
-### 2. Configuración del Frontend
+### 2. Configuración del Frontend (Svelte 5)
 
-1. Abre una nueva terminal y navega a la raiz del proyecto:
+1. Navega a la raíz del proyecto:
    ```bash
    cd Svelte-PW2
    ```
@@ -140,9 +211,9 @@ El proyecto está claramente dividido en dos carpetas principales que separan la
    npm install
    ```
 
-3. Inicia la aplicación Svelte:
+3. Inicia la aplicación:
    ```bash
    npm run dev
    ```
 
-4. Abre tu navegador en la ruta indicada (usualmente `http://localhost:5173`).
+4. Abre tu navegador en `http://localhost:5173`.
